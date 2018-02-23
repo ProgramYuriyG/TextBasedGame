@@ -1,0 +1,202 @@
+// 2-22-18
+
+import java.util.*;
+import java.util.regex.*;
+
+//PlayFile Class
+
+public class PlayFile{
+public static String location = "";
+public static void main(String[]args){
+
+//Initializes the start Condition
+InitializingSequence.Welcome();
+
+}}
+
+//InitializingSequence Class
+
+class InitializingSequence{
+public static String location = "";
+
+//The Welcome Sequence of the Game
+public static void Welcome(){
+Scanner input = new Scanner(System.in);
+System.out.println("Welcome to the game...");
+
+//Asks the User for their input on whether they are a new contender or not
+System.out.println("\nAre you a new contender?");
+String contender = input.nextLine();
+int contenderNumbers = 0;
+int passCondition = 0;
+
+//if contender has yes in it, input one thing, if no output another
+//else output something else such as "I asked you a simple yes or no question, do not anger those who control you
+while( passCondition==0 ){
+
+//Contender said yes
+if( Contains(contender,"yes") ){
+System.out.println("\nExcellent, fresh blood ripe for the taking.");
+passCondition++;
+location = "new";
+}
+//Contender said no
+else if( Contains(contender,"no") ){
+System.out.println("\nBack for another go now are you? Prepare yourself.");
+passCondition++;
+location = "returning";
+}
+//Contender did not say yes or no
+else{
+System.out.println("\nI asked you a simple yes or no question, do not anger those who control your fate.");
+contender = input.nextLine();
+contenderNumbers++;
+
+//If the response did not get a yes or a no then it gives this text response
+if(contenderNumbers >= 2){
+System.out.println("\nTempting your fate I see...\n\nYOU HAVE BEEN WARNED");
+passCondition++;
+location = "warned";
+}
+
+}}
+
+//Calls to the SpawnLocation Method while inputting the location that we receive
+String locationOfSpawn = SpawnLocation(location);
+InitializedArea(locationOfSpawn);
+}
+
+//Checks to see if a certain string contains just the phrase without extra letters
+private static boolean Contains(String source, String subItem){
+
+String pattern = "\\b"+subItem+"\\b";
+Pattern p = Pattern.compile(pattern);
+Matcher m = p.matcher(source);
+return m.find();
+}
+
+public static String SpawnLocation(String location1){
+
+//new, returning, or warned are the three spawn triggers
+String locationOfSpawn;
+if(location1 == "new"){
+locationOfSpawn = "Tutorial";
+}else if(location1 == "returning"){
+locationOfSpawn = "Tarmeptus";
+}else{
+locationOfSpawn = "Wrath";
+}
+
+//Returns the location of where the player will be spawned
+return locationOfSpawn;
+}
+
+//initializes the spawn location sequence of the player
+public static void InitializedArea(String areaOfSpawn){
+
+if(areaOfSpawn == "Tutorial"){
+Tutorial.Start();
+return;
+}else if(areaOfSpawn == "Tarmeptus"){
+Tarmeptus.Start();
+return;
+}else{
+Wrath.Start();
+return;
+}
+}
+
+}
+
+//Tutorial Class
+
+class Tutorial{
+public static void Start(){
+Scanner input = new Scanner(System.in);
+
+System.out.println("\nWelcome to the Tutorial!");
+
+//Loads in the health bar and Name
+//Press O to open up optaions/menu and then from there you can chose inventory
+
+System.out.println("What is your name?");
+String name = input.nextLine();
+
+System.out.println("\n"+name+"\n-----------------------------------");
+System.out.println("Health: 10");
+System.out.println("Stamina: 12");
+System.out.println("Inventory: ");
+System.out.println("\nThis is where your Health and Stamina are displayed. ");
+System.out.println("Along with your Inventory and any items you pick up along the way.");
+
+//Asks the player if they have any questions
+System.out.println("Questions?");
+String questions = input.nextLine();
+
+//If the user has any more of the preprogrammed questions then keep asking until they do not
+int number = Questions(questions);
+while(number > 0){
+System.out.println("\nAny more Questions?");
+questions = input.nextLine();
+number = Questions(questions);
+}
+//If the user does not ask something preprogrammed
+System.out.println("\nDoesn't Matter, now scram before I send you someplace you wish to never end up.");
+
+//Allows the player to continue on or repeat the tutorial sequence
+System.out.println("\nPress Enter to Continue or Type Repeat to repeat the Tutorial.");
+String continuation = input.nextLine();
+String continuationLower = continuation.toLowerCase();
+if(continuation.equals("")){
+System.out.println("Congratulations, you shall now begin your journey. Have a safe trip now "+name+".");
+}else if(continuationLower.contains("repeat")){
+System.out.println("Again? Seriously come on, pay attention this time newbie.");
+Start();
+}
+
+}
+
+//Questions method
+public static int Questions(String questions){
+//if the question contained the word inventory
+if((questions.toLowerCase()).contains("inventory")){
+System.out.println("\nIf you ever wish to open your inventory to check what is inside type: inventory");
+System.out.println("Also, if you want to close your inventory just type: close");
+System.out.println("and your inventory will close automatically.");
+return 1;
+}
+//if the question contained the word tutorial
+else if((questions.toLowerCase()).contains("tutorial")){
+System.out.println("\nYes this is the tutorial, good job on learning how to read.");
+return 1;
+}
+//if it contained none of the above then return 0
+else{
+return 0;
+}
+}
+
+}
+
+//Taremptus Class
+
+class Tarmeptus{
+public static void Start(){
+Scanner input = new Scanner(System.in);
+
+System.out.println("\nWelcome back to Tarmeptus!");
+
+}}
+
+//Wrath Class
+
+class Wrath{
+public static void Start(){
+Scanner input = new Scanner(System.in);
+
+System.out.println("\nWelcome to Wrath!");
+System.out.println("You shall now know who you are dealing with.");
+System.out.println("Disobedience to your new master will not be tolerated.");
+
+}}
+
